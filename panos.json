@@ -25,7 +25,10 @@
     "owner": "Alexandre Duret-Lutz",
     "overlay": "images/tintamarre-overlay.png",
     "image": "images/tintamarre.jpg",
-    "audio": "audio/235428__allanz10d__calm-ocean-breeze-simulation.ogg",
+    "audio": {
+      "src": "audio/52450__inchadney__craw.wav",
+      "loop": false
+    },
     "source": "g",
     "license": "Creative Commons"
   }
