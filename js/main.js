@@ -81,6 +81,17 @@ function loadPano() {
       .onComplete(function () {
         // load in new panorama texture.
         pano.material.map = THREE.ImageUtils.loadTexture(imgPano, THREE.UVMapping, fadeIn);
+
+        var panoAudio = panoCurrent.audio;
+        if (panoAudio) {
+          if (typeof panoAudio === 'string') {
+            panoAudio = {src: panoAudio};
+          }
+
+          return sfx.play(panoAudio.src, panoAudio).then(function () {
+            console.log('Played audio: %s', panoAudio.src);
+          }).catch(console.error.bind(console));
+        }
       })
       .start();
 
@@ -147,7 +158,24 @@ function init() {
   // camera.add( listener );
 
   // Fetch the JSON list of panos.
-  panosList.then(loadMaterial).then(loadPano);
+  panosList.then(function (panos) {
+
+    // Load material and first panorama.
+    loadMaterial().then(loadPano);
+
+    // Add background sound.
+    sfx.init();
+
+    // Preload the sounds so we can play them later.
+    var sfxToPreload = panos.map(function (pano) {
+      return (pano.audio && pano.audio.src) || pano.audio;
+    });
+
+    return sfx.preload(sfxToPreload).then(function (sfxLoaded) {
+      console.log(['Preloaded audio:'].concat(sfxLoaded).join('\n• '));
+    });
+
+  });
 
   // panorma mesh
   var geometry = new THREE.SphereGeometry( 1000, 60, 60 );
