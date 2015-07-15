@@ -90,7 +90,9 @@ function loadPano() {
 
           return sfx.play(panoAudio.src, panoAudio).then(function () {
             console.log('Played audio: %s', panoAudio.src);
-          }).catch(console.error.bind(console));
+          }).catch(function (err) {
+            console.error('Could not play audio\n', err);
+          });
         }
       })
       .start();
@@ -163,8 +165,7 @@ function init() {
     // Load material and first panorama.
     loadMaterial().then(loadPano);
 
-    // Add background sound.
-    sfx.init();
+    // Add background sounds.
 
     // Preload the sounds so we can play them later.
     var sfxToPreload = panos.map(function (pano) {
@@ -173,6 +174,8 @@ function init() {
 
     return sfx.preload(sfxToPreload).then(function (sfxLoaded) {
       console.log(['Preloaded audio:'].concat(sfxLoaded).join('\n• '));
+    }).catch(function (err) {
+      console.log('Could not preload audio\n', err);
     });
 
   });

@@ -1,6 +1,18 @@
-;(function () {
+(function () {
 
 var utils = {
+  defaultExtend: function (dest, src) {
+    // Because `Object.assign` is not available everywhere.
+    var ret = {};
+
+    if (dest) {
+      Object.keys(src).forEach(function (key) {
+        ret[key] = key in dest ? dest[key] : src[key];
+      });
+    }
+
+    return ret;
+  },
   unique: function (list) {
     // Removes duplicates from an array.
 
@@ -23,109 +35,136 @@ var utils = {
     (blacklist || []).forEach(function (key) {
       delete ret[key];
     })
+  },
+  coerceBool: function (str) {
+    if (typeof str === 'boolean') {
+      return str;
+    }
+
+    if (typeof str === 'string') {
+      switch (str.toLowerCase()) {
+        case 'true':
+        case 'yes':
+        case '1':
+          return true;
+        case 'false':
+        case 'no':
+        case '0':
+          return false;
+      }
+    }
+
+    return !!str;
   }
+};
+
+
+function Sfx() {
+  // This is a Promise-based wrapper around Howl
+  // so we can do easy preloading and playing of multiple
+  // audio files.
+
+  this.timeoutPlay = 5000;  // milliseconds.
 }
 
-// Monkey-patch `NeatAudio.playSound` to return the `source`.
-NeatAudio.playSound = function (buffer, opts) {
-  if (!this.audioContext) {
-    throw 'No audioContext found, has neatAudio.init(environment) been called?';
-  }
-
-  var source = this.audioContext.createBufferSource();
-  source.buffer = buffer;
-  Object.keys(opts || {}).forEach(function (opt) {
-    source[opt] = opts[opt];
-  });
-
-  source.connect(this.audioContext.destination);
-  source.start(0);
-
-  this.source = source;
-
-  return Promise.resolve(this.source);
-};
-
-var sfx = {
-  init: function (win) {
-    NeatAudio.init(win || self);
+Sfx.prototype = {
+  init: function () {
+    if (!this.sounds) {
+      this.sounds = {};
+    }
+    return Promise.resolve(this.sounds);
   },
-  _play: function (fn, opts) {
-    opts = opts || {};
-    if (typeof opts.force === 'undefined') {
-      opts.force = false;
-    }
-    fn = fn || opts.src || opts.fn;
+  preload: function (urls) {
+    // We preload the sound clips so they get added to Howl's internal cache.
+    var self = this;
 
-    if (!fn) {
-      throw 'Filename required for `sfx.play`.';
-    }
+    self.init();
 
     return new Promise(function (resolve, reject) {
-      if (!opts.force && sfx.current && fn === sfx.current.fn) {
-        // This sound is already playing.
-        return Promise.resolve(sfx.source);
+
+      if (typeof urls === 'string') {
+        urls = [urls];
       }
 
-      if (sfx.current) {
-        sfx.pauseCurrent();
-      }
+      // Remove dupes so we don't preload the same audio file twice.
+      urls = utils.unique(urls);
 
-      var setCurrent = function (source) {
-        return sfx.setCurrent(fn, source);
-      };
+      var lastIdx = urls.length - 1;
 
-      // Send only the properties we care about.
-      var props = utils.without(opts, ['fn', 'force', 'src']);
-
-      if (fn in sfx.sounds) {
-        return NeatAudio.playSound(sfx.sounds[fn], props).then(resolve, reject);
-      } else {
-        return sfx.fetch(fn).then(function (sound) {
-          return NeatAudio.playSound(sound, props).then(resolve, reject);
+      urls.forEach(function (url, idx) {
+        // We cache the sounds here so we can play them later
+        // and not have to load the same audio file twice.
+        self.sounds[url] = new Howl({
+          urls: [url],
+          onload: function () {
+            if (idx === lastIdx) {
+              resolve(urls);
+            }
+          },
+          onloaderror: reject
         });
-      }
+      });
+
     });
   },
-  play: function (fn, opts) {
-    return this._play(fn, opts).then(function (sound) {
-      sfx.setCurrent(fn, sound);
-      return sound;
-    });
-  },
-  setCurrent: function (fn, source) {
-    sfx.current = {fn: fn, source: source};
-    // console.log('Set current audio source: %s', sfx.current);
-  },
-  pauseCurrent: function () {
-    sfx.current.source.stop(0);
-    // console.log('Paused current audio source: %s', sfx.current.fn);
-    return Promise.resolve(sfx.current.fn);
-  },
-  fetch: function (fn) {
-    if (fn in sfx.sounds) {
-      return Promise.resolve(sfx.sounds[fn]);
+  play: function (url, opts) {
+    var self = this;
+
+    if (self.sounds[url]) {
+      return self._play(url, opts);
     }
 
-    return NeatAudio.fetchSound(fn).then(function (sound) {
-      sfx.sounds[fn] = sound;
-      sound.fn = fn;
-      // console.log('Fetched audio: %s', fn);
-      return sound;
+    // Otherwise, start up Howl and play the sound.
+    return self.preload(url).then(function () {
+      return self._play(url, opts);
     });
   },
-  preload: function (fns) {
-    var toLoad = utils.unique(fns).map(sfx.fetch);
-    return Promise.all(toLoad.map(function (fetchPromise) {
-      return fetchPromise.then(function (sound) {
-        // Return the sound's filename.
-        return sound.fn;
+  _play: function (url, opts) {
+    var self = this;
+
+    opts = utils.defaultExtend(opts, {
+      force: false,
+      loop: true
+    });
+
+    opts.loop = utils.coerceBool(opts.loop);
+
+    var prom = new Promise(function (resolve, reject) {
+      if (!url) {
+        // No sound to play if no URL given.
+        return resolve();
+      }
+
+      if (!opts.force && self.sound && self.sound._src === url) {
+        // Do not play the same sound again, unless we're forced to.
+        return resolve();
+      }
+
+      if (self.sound) {
+        // Stop the sound that's currently playing.
+        self.sound.stop();
+      }
+
+      self.sounds[url].loop(opts.loop);
+
+      self.sounds[url].play(null, function () {
+        self.sound = self.sounds[url];
+        resolve(url);
       });
-    }));
-  },
-  sounds: {}
+
+      // There is no error callback that gets called, so we just time out.
+      // The event gets called immediately when the `play` method gets called,
+      // so the timeout is plenty of enough time to wait for.
+      setTimeout(function () {
+        var msg = 'Sound could not be played (timeout after ' + self.timeoutPlay + ' ms)';
+        reject(new Error(msg));
+      }, self.timeoutPlay);
+    });
+
+    return prom;
+  }
 };
 
-self.sfx = sfx;
+self.sfx = new Sfx();
 
 })();
