@@ -116,9 +116,9 @@ function loadPano(increment, fromHolodeck) {
 
     // fade in newly loaded panorama.
     function fadeIn() {
-      // if (fromHolodeck) {
-      //   playAudio('audio/hologram_on.mp3');
-      // }
+      if (fromHolodeck) {
+        playAudio('audio/hologram_off_2.mp3');
+      }
 
       new TWEEN.Tween(pano.material)
         .to({opacity: 1}, 1000)
@@ -198,6 +198,7 @@ function init() {
       return (pano.audio && pano.audio.src) || pano.audio;
     }).concat([
       'audio/hologram_on.mp3',
+      'audio/hologram_off_2.mp3',
       'audio/holodeck_end_program.mp3'
     ]);
 
