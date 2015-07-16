@@ -110,7 +110,9 @@ function loadPano(increment, fromHolodeck) {
       .to({opacity: 0}, 300)
       .onComplete(function () {
         // load in new title.
-        overlay.children[0].material.map = THREE.ImageUtils.loadTexture(imgOverlay, THREE.UVMapping);
+        if (imgOverlay) {
+          overlay.children[0].material.map = THREE.ImageUtils.loadTexture(imgOverlay, THREE.UVMapping);
+        }
       })
       .start();
 
