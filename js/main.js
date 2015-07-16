@@ -190,7 +190,7 @@ function init() {
 
     // Load material and first panorama.
     loadMaterial().then(function () {
-      return loadPano(1);
+      //return loadPano(1);
     });
 
     // Add background sounds.
