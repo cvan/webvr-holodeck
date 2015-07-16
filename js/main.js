@@ -331,3 +331,23 @@ function animate() {
 
 
 init();
+
+document.addEventListener('keypress', function (e) {
+  if (e.alt || e.ctrlKey || e.metaKey) {
+    return;
+  }
+
+  if (e.key === 's') {
+    e.preventDefault();
+
+    // Toggle sound by muting/unmuting.
+    if (sfx.sound) {
+      sfx.sound._muted = !!!sfx.sound._muted;
+      if (sfx.sound._muted) {
+        sfx.sound.unmute();
+      } else {
+        sfx.sound.mute();
+      }
+    }
+  }
+});
