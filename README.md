@@ -2,6 +2,8 @@
 
 It's like Tim Berners-Lee meets Oculus meets Tea, Earl Grey, Hot.
 
+![Star Trek](images/startrek.png?raw=true "Star Trek")
+
 
 ## Local development
 
