@@ -13,6 +13,7 @@
     "url": "git+https://github.com/MozVR/panorama-viewer.git"
   },
   "author": "MozVR",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/MozVR/panorama-viewer/issues"
   },

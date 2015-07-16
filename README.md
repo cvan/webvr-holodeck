@@ -18,3 +18,8 @@ To serve the project directory locally run:
     npm start
 
 Now open [https://localhost:8080](https://localhost:8080) (or the host at whichever port it was served on) in your browser of choice.
+
+
+### Licence
+
+[MIT](LICENCE)
