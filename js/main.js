@@ -67,8 +67,8 @@ function bend( group, amount, multiMaterialObject ) {
   }
 }
 
-function playAudio(url) {
-  return sfx.play(url).then(function () {
+function playAudio(url, opts) {
+  return sfx.play(url, opts).then(function () {
     console.log('Playing audio: %s', url);
   }).catch(function (err) {
     console.error('Could not play audio (%s) \n', url, err);
@@ -138,7 +138,7 @@ function loadPano(increment, fromHolodeck) {
         }
       }
 
-      playAudio(panoAudio.src);
+      playAudio(panoAudio.src, panoAudio);
 
       new TWEEN.Tween(overlay.children[0].material)
         .to({opacity: 1}, 300)
