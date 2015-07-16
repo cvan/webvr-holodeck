@@ -9,7 +9,7 @@
     "audio": "audio/235428__allanz10d__calm-ocean-breeze-simulation.ogg",
     "source": "http://bit.ly/1xk9Vk1",
     "license": "Creative Commons",
-    "commands": ["computer start mount of the cross"]
+    "commands": ["computer start mount of the cross", "first", "one", "computer play first", "computer play one", "computer play first program", "computer play program one"]
   },
   {
     "id": 2,
@@ -21,7 +21,7 @@
     "audio": "audio/235428__allanz10d__calm-ocean-breeze-simulation.ogg",
     "source": "https://www.flickr.com/photos/gadl/406108908",
     "license": "Creative Commons",
-    "commands": ["computer start love"]
+    "commands": ["computer start love", "second", "two", "computer play second", "computer play two", "computer play second program", "computer play program two"]
   },
   {
     "id": 3,
@@ -36,6 +36,6 @@
     },
     "source": "g",
     "license": "Creative Commons",
-    "commands": ["computer start sunrise on tomorrow"]
+    "commands": ["computer start sunrise on tomorrow", "third", "three", "computer play third", "computer play three", "computer play third program", "computer play program three"]
   }
 ]
