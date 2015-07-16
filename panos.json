@@ -1,37 +1,49 @@
 [
   {
     "id": 1,
+    "title": "Desert",
+    "details": "360° spherical (equirectangular) panorama.",
+    "owner": "Paul Bourke",
+    "overlay": null,
+    "image": "images/panos/image5.jpg",
+    "audio": "audio/panos/post-crisis-remembrance.mp3",
+    "source": "http://paulbourke.net/miscellaneous/sphericalpano/",
+    "license": "Public Domain",
+    "commands": ["computer start desert", "desert", "first", "one", "computer play first", "computer play one", "computer play first program", "computer play program one"]
+  },
+  {
+    "id": 2,
     "title": "En route pour le Puy de Sancy",
     "details": "Equirectangular panorama built from 10 pictures, shot handheld.",
     "owner": "Alexandre Duret-Lutz",
     "overlay": "images/puydesancy-overlay.png",
     "image": "images/puydesancy.jpg",
-    "audio": "audio/235428__allanz10d__calm-ocean-breeze-simulation.ogg",
+    "audio": "audio/panos/235428__allanz10d__calm-ocean-breeze-simulation.ogg",
     "source": "http://bit.ly/1xk9Vk1",
     "license": "Creative Commons",
     "commands": ["computer start mount of the cross", "first", "one", "computer play first", "computer play one", "computer play first program", "computer play program one"]
   },
   {
-    "id": 2,
+    "id": 3,
     "title": "Musée du Louvre",
     "details": "Equirectangular panorama built from 8 pictures.",
     "owner": "Alexandre Duret-Lutz",
     "overlay": "images/louvre-overlay.png",
     "image": "images/louvre.jpg",
-    "audio": "audio/235428__allanz10d__calm-ocean-breeze-simulation.ogg",
+    "audio": "audio/panos/235428__allanz10d__calm-ocean-breeze-simulation.ogg",
     "source": "https://www.flickr.com/photos/gadl/406108908",
     "license": "Creative Commons",
     "commands": ["computer start love", "second", "two", "computer play second", "computer play two", "computer play second program", "computer play program two"]
   },
   {
-    "id": 3,
+    "id": 4,
     "title": "Sunrise on Tintamarre",
     "details": "Equirectangular panorama built from 8 pictures.",
     "owner": "Alexandre Duret-Lutz",
     "overlay": "images/tintamarre-overlay.png",
     "image": "images/tintamarre.jpg",
     "audio": {
-      "src": "audio/52450__inchadney__craw.wav",
+      "src": "audio/panos/52450__inchadney__craw.wav",
       "loop": false
     },
     "source": "g",
