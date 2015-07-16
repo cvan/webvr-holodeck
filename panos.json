@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "title": "En route pour le Puy de Sancy",
     "details": "Equirectangular panorama built from 10 pictures, shot handheld.",
     "owner": "Alexandre Duret-Lutz",
@@ -7,9 +8,11 @@
     "image": "images/puydesancy.jpg",
     "audio": "audio/235428__allanz10d__calm-ocean-breeze-simulation.ogg",
     "source": "http://bit.ly/1xk9Vk1",
-    "license": "Creative Commons"
+    "license": "Creative Commons",
+    "commands": ["computer start mount of the cross"]
   },
   {
+    "id": 2,
     "title": "Musée du Louvre",
     "details": "Equirectangular panorama built from 8 pictures.",
     "owner": "Alexandre Duret-Lutz",
@@ -17,9 +20,11 @@
     "image": "images/louvre.jpg",
     "audio": "audio/235428__allanz10d__calm-ocean-breeze-simulation.ogg",
     "source": "https://www.flickr.com/photos/gadl/406108908",
-    "license": "Creative Commons"
+    "license": "Creative Commons",
+    "commands": ["computer start love"]
   },
   {
+    "id": 3,
     "title": "Sunrise on Tintamarre",
     "details": "Equirectangular panorama built from 8 pictures.",
     "owner": "Alexandre Duret-Lutz",
@@ -30,6 +35,7 @@
       "loop": false
     },
     "source": "g",
-    "license": "Creative Commons"
+    "license": "Creative Commons",
+    "commands": ["computer start sunrise on tomorrow"]
   }
 ]

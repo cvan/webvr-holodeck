@@ -110,7 +110,7 @@ Sfx.prototype = {
   play: function (url, opts) {
     var self = this;
 
-    if (self.sounds[url]) {
+    if (url in self.sounds) {
       return self._play(url, opts);
     }
 
@@ -122,12 +122,12 @@ Sfx.prototype = {
   _play: function (url, opts) {
     var self = this;
 
-    opts = utils.defaultExtend(opts, {
-      force: false,
-      loop: true
-    });
+    opts = opts || {};
 
-    opts.loop = utils.coerceBool(opts.loop);
+    opts = utils.defaultExtend(opts, {
+      force: 'force' in opts ? utils.coerceBool(opts.force) : false,
+      loop: 'loop' in opts ? utils.coerceBool(opts.loop) : false
+    });
 
     var prom = new Promise(function (resolve, reject) {
       if (!url) {

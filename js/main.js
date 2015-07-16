@@ -12,7 +12,7 @@ var parameters = (function() {
 var camera;
 var clock = new THREE.Clock();
 var controls;
-var counter = 0;
+var counter = -1;
 var effect;
 var manager;
 var orbitControls;
@@ -67,13 +67,34 @@ function bend( group, amount, multiMaterialObject ) {
   }
 }
 
+function playAudio(url) {
+  return sfx.play(url).then(function () {
+    console.log('Playing audio: %s', url);
+  }).catch(function (err) {
+    console.error('Could not play audio (%s) \n', url, err);
+  });
+}
 
-function loadPano() {
+
+function loadPano(increment, fromHolodeck) {
   panosList.then(function (panos) {
 
+    counter += increment;
+    if (counter < 0) {
+      counter = panos.length - 1;
+    }
+    if (counter === panos.length) {
+      counter = 0;
+    }
+
     panoCurrent = panos[counter];
+
     var imgPano = panoCurrent.image;
     var imgOverlay = panoCurrent.overlay;
+
+    if (fromHolodeck) {
+      playAudio('audio/holodeck_end_program.mp3');
+    }
 
     // fade out current panorama.
     new TWEEN.Tween(pano.material)
@@ -81,19 +102,6 @@ function loadPano() {
       .onComplete(function () {
         // load in new panorama texture.
         pano.material.map = THREE.ImageUtils.loadTexture(imgPano, THREE.UVMapping, fadeIn);
-
-        var panoAudio = panoCurrent.audio;
-        if (panoAudio) {
-          if (typeof panoAudio === 'string') {
-            panoAudio = {src: panoAudio};
-          }
-
-          return sfx.play(panoAudio.src, panoAudio).then(function () {
-            console.log('Played audio: %s', panoAudio.src);
-          }).catch(function (err) {
-            console.error('Could not play audio\n', err);
-          });
-        }
       })
       .start();
 
@@ -108,6 +116,10 @@ function loadPano() {
 
     // fade in newly loaded panorama.
     function fadeIn() {
+      // if (fromHolodeck) {
+      //   playAudio('audio/hologram_on.mp3');
+      // }
+
       new TWEEN.Tween(pano.material)
         .to({opacity: 1}, 1000)
         .onComplete(fadeInOverlay)
@@ -116,6 +128,18 @@ function loadPano() {
 
     // fade in newly loaded title.
     function fadeInOverlay() {
+      var panoAudio = panoCurrent.audio;
+      if (panoAudio) {
+        if (typeof panoAudio === 'string') {
+          panoAudio = {src: panoAudio};
+        }
+        if (typeof panoAudio.loop === 'undefined') {
+          panoAudio.loop = true;
+        }
+      }
+
+      playAudio(panoAudio.src);
+
       new TWEEN.Tween(overlay.children[0].material)
         .to({opacity: 1}, 300)
         .start();
@@ -163,14 +187,19 @@ function init() {
   panosList.then(function (panos) {
 
     // Load material and first panorama.
-    loadMaterial().then(loadPano);
+    loadMaterial().then(function () {
+      return loadPano(1);
+    });
 
     // Add background sounds.
 
     // Preload the sounds so we can play them later.
     var sfxToPreload = panos.map(function (pano) {
       return (pano.audio && pano.audio.src) || pano.audio;
-    });
+    }).concat([
+      'audio/hologram_on.mp3',
+      'audio/holodeck_end_program.mp3'
+    ]);
 
     return sfx.preload(sfxToPreload).then(function (sfxLoaded) {
       console.log(['Preloaded audio:'].concat(sfxLoaded).join('\n• '));
@@ -265,17 +294,9 @@ function onkey(e) {
     if (e.keyCode == '90') {
       controls.zeroSensor();
     } else if (e.keyCode == '37') {
-      counter --;
-      if (counter < 0) {
-        counter = panos.length - 1;
-      }
-      loadPano();
+      loadPano(-1);
     } else if (e.keyCode == '39') {
-      counter ++;
-      if (counter == panos.length) {
-        counter = 0;
-      }
-      loadPano();
+      loadPano(1);
     }
 
   });
