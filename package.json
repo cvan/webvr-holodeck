@@ -1,0 +1,23 @@
+{
+  "name": "panorama-viewer",
+  "version": "1.0.0",
+  "description": "360° video panorama",
+  "main": "index.html",
+  "scripts": {
+    "start": "npm run ssl:server",
+    "ssl:server": "http-server --ssl -c-1",
+    "ssl:key": "openssl req -new -newkey rsa:4096 -sha512 -days 365 -nodes -x509 -subj '/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com' -keyout key.pem -out cert.pem"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MozVR/panorama-viewer.git"
+  },
+  "author": "MozVR",
+  "bugs": {
+    "url": "https://github.com/MozVR/panorama-viewer/issues"
+  },
+  "homepage": "https://github.com/MozVR/panorama-viewer#readme",
+  "devDependencies": {
+    "http-server": "^0.8.0"
+  }
+}
