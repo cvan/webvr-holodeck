@@ -138,13 +138,15 @@ function loadPano(increment, fromHolodeck) {
         if (typeof panoAudio.loop === 'undefined') {
           panoAudio.loop = true;
         }
+
+        playAudio(panoAudio.src, panoAudio);
       }
 
-      playAudio(panoAudio.src, panoAudio);
-
-      new TWEEN.Tween(overlay.children[0].material)
-        .to({opacity: 1}, 300)
-        .start();
+      if (imgOverlay) {
+        new TWEEN.Tween(overlay.children[0].material)
+          .to({opacity: 1}, 300)
+          .start();
+        }
     }
 
   });

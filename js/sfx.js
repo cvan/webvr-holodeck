@@ -87,7 +87,7 @@ Sfx.prototype = {
       }
 
       // Remove dupes so we don't preload the same audio file twice.
-      urls = utils.unique(urls);
+      urls = utils.unique(urls).filter(function (x) { return !!x; });
 
       var lastIdx = urls.length - 1;
 
