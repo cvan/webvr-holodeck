@@ -1,6 +1,11 @@
 /* global counter, loadPano, panosList, playAudio, SpeechRecognition, SpeechGrammarList */
 (function () {
 
+var startCommands = {
+  'start': startHolodeck,
+  'computer start': startHolodeck,
+};
+
 var commands = {
   'next': 1,
   'previous': -1,
@@ -8,6 +13,7 @@ var commands = {
   'back': -1,
   'computer next': 1,
   'computer previous': -1,
+  'computer start program': 1,
   'computer next program': 1,
   'computer previous program': -1,
   'computer start next program': 1,
@@ -160,6 +166,11 @@ function startProgram(program) {
       loadPano(0, true);
     });
   }
+}
+
+function startHolodeck() {
+  counter = 0;
+  loadPano(0, true);
 }
 
 
