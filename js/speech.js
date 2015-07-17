@@ -4,6 +4,7 @@
 var navCommands = {
   'start': startHolodeck,
   'computer start': startHolodeck,
+
   'next': panoForward,
   'previous': panoBack,
   'forward': panoForward,
@@ -19,6 +20,15 @@ var navCommands = {
   'computer back': panoBack,
   'computer go forward': panoForward,
   'computer go back': panoBack,
+
+  // 'upload': WorldManager.create,
+  'make': WorldManager.create,
+  'create': WorldManager.create,
+  // 'computer upload': WorldManager.create,
+  'computer make': WorldManager.create,
+  'computer create': WorldManager.create,
+  'computer new': WorldManager.create,
+  'computer world': WorldManager.create,
 };
 
 var programCommands = {};
@@ -27,8 +37,6 @@ var commandsList = Object.keys(navCommands);
 
 
 panosList.then(function (panos) {
-
-
 
   panos.forEach(function (pano, idx) {
     panos[idx]._idx = idx;
@@ -167,21 +175,10 @@ function startHolodeck() {
   panoNext();
 }
 
-
-document.addEventListener('keypress', function (e) {
-  if (e.alt || e.ctrlKey || e.metaKey) {
-    return;
-  }
-
-  if (e.key === ' ') {
-    e.preventDefault();
-    if (recognising) {
-      stop();
-    } else {
-      playAudio('audio/hologram_on.mp3');
-      start();
-    }
-  }
-});
+self.speech = {
+  recognising: recognising,
+  start: start,
+  stop: stop
+};
 
 })();

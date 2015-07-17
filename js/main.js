@@ -375,21 +375,48 @@ function animate() {
 init();
 
 document.addEventListener('keypress', function (e) {
-  if (e.alt || e.ctrlKey || e.metaKey) {
+  if (document.activeElement !== document.body ||
+      e.alt || e.ctrlKey || e.metaKey) {
+
     return;
   }
 
-  if (e.key === 's') {
-    e.preventDefault();
+  switch (e.key) {
+    case ' ':
+      e.preventDefault();
 
-    // Toggle sound by muting/unmuting.
-    if (sfx.sound) {
-      sfx.sound._muted = !!!sfx.sound._muted;
-      if (sfx.sound._muted) {
-        sfx.sound.unmute();
+      if (speech.recognising) {
+        speech.stop();
       } else {
-        sfx.sound.mute();
+        playAudio('audio/hologram_on.mp3');
+        speech.start();
       }
-    }
+
+      break;
+
+    case 's':
+      e.preventDefault();
+
+      // Toggle sound by muting/unmuting.
+      if (sfx.sound) {
+        sfx.sound._muted = !!!sfx.sound._muted;
+        if (sfx.sound._muted) {
+          sfx.sound.unmute();
+        } else {
+          sfx.sound.mute();
+        }
+      }
+
+      break;
+
+    case 'c':
+    case 'n':
+    case 'u':
+      e.preventDefault();
+
+      WorldManager.create();
+
+      break;
+
   }
 });
