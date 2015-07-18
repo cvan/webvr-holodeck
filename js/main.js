@@ -150,6 +150,8 @@ function panoPlay(panoIdx, fromHolodeck) {
         // load in new title.
         if (imgOverlay) {
           overlay.children[0].material.map = THREE.ImageUtils.loadTexture(imgOverlay, THREE.UVMapping);
+        } else {
+          overlay.children[0].material.map = null;
         }
       })
       .start();
