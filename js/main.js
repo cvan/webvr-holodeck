@@ -75,19 +75,57 @@ function playAudio(url, opts) {
   });
 }
 
+function panoSetCounter(val, panos) {
+  if (counter === val) {
+    return counter;
+  }
 
-function loadPano(increment, fromHolodeck) {
-  panosList.then(function (panos) {
+  counter = val;
 
-    counter += increment;
-    if (counter < 0) {
-      counter = panos.length - 1;
+  if (counter < 0) {
+    counter = panos.length - 1;
+  }
+
+  if (counter === panos.length) {
+    counter = 0;
+  }
+
+  return counter;
+}
+
+function panoJump(panoIdxOrObj) {
+  var panoIdx = panoIdxOrObj;
+
+  if (typeof panoIdxOrObj === 'object') {
+    panoIdx = panos.indexOf(panoIdxOrObj);
+  }
+
+  return panoPlay(panoIdx);
+}
+
+function panoStep(increment) {
+  return panoPlay(counter + increment);
+}
+
+function panoBack() {
+  return panoPlay(counter - 1);
+}
+
+function panoForward() {
+  return panoPlay(counter + 1);
+}
+
+function panoPlay(panoIdx, fromHolodeck) {
+  return panosList.then(function (panos) {
+
+    panoIdx = panoSetCounter(panoIdx, panos);
+
+    if (panoCurrent && panoCurrent._idx === panoIdx) {
+      // We're already viewing that pano, silly.
+      return panoIdx;
     }
-    if (counter === panos.length) {
-      counter = 0;
-    }
 
-    panoCurrent = panos[counter];
+    panoCurrent = panos[panoIdx];
 
     var imgPano = panoCurrent.image;
     var imgOverlay = panoCurrent.overlay;
@@ -146,8 +184,10 @@ function loadPano(increment, fromHolodeck) {
         new TWEEN.Tween(overlay.children[0].material)
           .to({opacity: 1}, 300)
           .start();
-        }
+      }
     }
+
+    return panoIdx;
 
   });
 }
@@ -188,7 +228,7 @@ function init() {
 
     // Load material and first panorama.
     loadMaterial().then(function () {
-      //return loadPano(1);
+      //return panoForward();
     });
 
     // Add background sounds.
@@ -292,12 +332,12 @@ function setupScene() {
 function onkey(e) {
   panosList.then(function (panos) {
 
-    if (e.keyCode == '90') {
+    if (e.keyCode === 90) {
       controls.zeroSensor();
-    } else if (e.keyCode == '37') {
-      loadPano(-1);
-    } else if (e.keyCode == '39') {
-      loadPano(1);
+    } else if (e.keyCode === 37) {
+      panoBack();
+    } else if (e.keyCode === 39) {
+      panoForward();
     }
 
   });

@@ -1,42 +1,44 @@
-/* global counter, loadPano, panosList, playAudio, SpeechRecognition, SpeechGrammarList */
+/* global panoJump, panoNext, panosList, playAudio, SpeechRecognition, SpeechGrammarList */
 (function () {
 
-var startCommands = {
+var navCommands = {
   'start': startHolodeck,
   'computer start': startHolodeck,
+  'next': panoForward,
+  'previous': panoBack,
+  'forward': panoForward,
+  'back': panoBack,
+  'computer next': panoForward,
+  'computer previous': panoBack,
+  'computer start program': panoForward,
+  'computer next program': panoForward,
+  'computer previous program': panoBack,
+  'computer start next program': panoForward,
+  'computer start previous program': panoBack,
+  'computer forward': panoForward,
+  'computer back': panoBack,
+  'computer go forward': panoForward,
+  'computer go back': panoBack,
 };
 
-var commands = {
-  'next': 1,
-  'previous': -1,
-  'forward': 1,
-  'back': -1,
-  'computer next': 1,
-  'computer previous': -1,
-  'computer start program': 1,
-  'computer next program': 1,
-  'computer previous program': -1,
-  'computer start next program': 1,
-  'computer start previous program': -1,
-  'computer forward': 1,
-  'computer back': -1,
-  'computer go forward': 1,
-  'computer go back': -1,
-};
+var programCommands = {};
 
-var panosByKey = {};
+var commandsList = Object.keys(navCommands);
 
 
 panosList.then(function (panos) {
 
-  panos.forEach(function (pano) {
-    panosByKey[pano.id] = pano;
+
+
+  panos.forEach(function (pano, idx) {
+    panos[idx]._idx = idx;
     (pano.commands || []).forEach(function (cmd) {
-      commands[cmd] = pano;
+      programCommands[cmd] = pano;
+      commandsList.push(cmd);
     });
   });
 
-  var grammar = Object.keys(commands).join(' | ');
+  var grammar = commandsList.join(' | ');
 
   createGrammar();
   setGrammar('#JSGF V1.0; grammar holodeck; public <simple> = ' + grammar + ';');
@@ -147,30 +149,22 @@ function process(transcript, score) {
     console.error('invalid transcript');
   } else {
     console.log('transcript:', transcript);
-    console.log(commands, transcript[commands]);
-    if (transcript in commands) {
-      startProgram(commands[transcript]);
+    if (transcript in navCommands) {
+      return navCommands(navCommands[transcript])();
+    }
+    if (transcript in programCommands) {
+      startProgram(programCommands[transcript]);
     }
   }
 }
 
 function startProgram(program) {
-  if (typeof program === 'number') {
-    loadPano(program, true);
-  } else if (typeof program === 'object') {
-    panosList.then(function (panos) {
-      console.log('Loading program:', program.title);
-
-      counter = panos.indexOf(program);
-
-      loadPano(0, true);
-    });
-  }
+  console.log('Loading program:', program.title);
+  panoJump(program);
 }
 
 function startHolodeck() {
-  counter = 0;
-  loadPano(0, true);
+  panoNext();
 }
 
 
