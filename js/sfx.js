@@ -64,21 +64,14 @@ function Sfx() {
   // so we can do easy preloading and playing of multiple
   // audio files.
 
+  this.sounds = {};
   this.timeoutPlay = 5000;  // milliseconds.
 }
 
 Sfx.prototype = {
-  init: function () {
-    if (!this.sounds) {
-      this.sounds = {};
-    }
-    return Promise.resolve(this.sounds);
-  },
   preload: function (urls) {
     // We preload the sound clips so they get added to Howl's internal cache.
     var self = this;
-
-    self.init();
 
     return new Promise(function (resolve, reject) {
 
