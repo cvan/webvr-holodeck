@@ -18,6 +18,7 @@ var manager;
 var orbitControls;
 var overlay;
 var pano;
+var panoIdxByKey = {};
 var panoCurrent;
 var renderer;
 var scene;
@@ -138,7 +139,8 @@ function panoPlay(panoIdx, fromHolodeck) {
     new TWEEN.Tween(pano.material)
       .to({opacity: 0}, 300)
       .onComplete(function () {
-        // load in new panorama texture.
+        // Load in new panorama texture.
+        THREE.ImageUtils.crossOrigin = 'anonymous';  // Enable loading of CORS'd images.
         pano.material.map = THREE.ImageUtils.loadTexture(imgPano, THREE.UVMapping, fadeIn);
       })
       .start();
@@ -214,11 +216,15 @@ function panoAdd(pano, idx) {
 function panoAddLater(pano) {
   var panosLength = panos.push(pano);
 
-  var commandsAdded = panoAdd(pano, panosLength - 1);
+  var idx = panosLength - 1;
+
+  var commandsAdded = panoAdd(pano, idx);
 
   if (commandsAdded) {
     speech.refreshGrammar();
   }
+
+  return idx;
 }
 
 

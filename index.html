@@ -6,17 +6,92 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="viewmode" content="projection=stereo">
     <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
       html, body {
         background-color: #000;
         color: #fff;
-        margin: 0px;
-        padding: 0px;
         overflow: hidden;
       }
 
+      body {
+        font-family: "Helvetica Neue", sans-serif;
+      }
+
+      button {
+        border: 0;
+        font-family: inherit;
+      }
+
+      button,
+      [role=button] {
+        cursor: pointer;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .uploader {
+        background: rgba(0,0,0,.6);
+        padding: 40px 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+
+      .uploader .uploadcare-widget-button-open,
+      .uploader .uploadcare-widget-dragndrop-area {
+        cursor: pointer;
+        padding: 10px 20px;
+      }
+
+      .uploader .uploadcare-widget-button-open {
+        background-color: #e22092;
+        background: linear-gradient(#e85eac, #e02a91);
+        border-bottom: 1px solid rgba(0,0,0,0.25);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+        font-size: 24px;
+        font-weight: bold;
+        line-height: 1.5;
+        text-align: center;
+        text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+        transition: transform .25s;
+        width: 200px;
+      }
+
+      .uploader .uploadcare-widget-button-open:hover {
+        background: linear-gradient(#e14296, #d71876);
+        transform: scale(1.05);
+      }
+
+      .uploader .uploadcare-widget-dragndrop-area {
+        background: none;
+        border-radius: 0;
+        bottom: 0;
+        left: 0;
+        position: fixed;
+        right: 0;
+        text-indent: -9999px;
+        top: 0;
+      }
+
+      .uploadcare-widget.uploadcare-dragging .uploadcare-widget-dragndrop-area {
+        background: rgba(255,0,255,.3);
+        border: 0;
+      }
     </style>
   </head>
   <body>
+    <p id="uploader" class="uploader hidden">
+      <input type="hidden" id="uploadcare-uploader" role="uploadcare-uploader" data-clearable="" value="">
+    </p>
+
     <script src="js/settings.js"></script>
     <script src="js/lib/fetch.js"></script>
     <script src="js/fetchPanos.js"></script>
@@ -28,10 +103,12 @@
     <script src="js/webvr-polyfill.js"></script>
     <script src="js/webvr-manager.js"></script>
     <script src="js/lib/howler.js"></script>
+    <script src="https://ucarecdn.com/widget/2.3.5/uploadcare/uploadcare.full.min.js"></script>
     <script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
     <script src="js/lib/firebase-promisified.js"></script>
     <script src="js/worldManager.js"></script>
     <script src="js/sfx.js"></script>
+    <script src="js/settings.js"></script>
     <script src="js/main.js"></script>
     <script src="js/speech.js"></script>
   </body>
