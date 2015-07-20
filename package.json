@@ -1,5 +1,5 @@
 {
-  "name": "panorama-viewer",
+  "name": "webvr-holodeck",
   "version": "1.0.0",
   "description": "360° video panorama",
   "main": "index.html",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MozVR/panorama-viewer.git"
+    "url": "git+https://github.com/cvan/webvr-holodeck.git"
   },
-  "author": "MozVR",
+  "author": "Chris Van",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MozVR/panorama-viewer/issues"
+    "url": "https://github.com/cvan/webvr-holodeck/issues"
   },
-  "homepage": "https://github.com/MozVR/panorama-viewer#readme",
+  "homepage": "https://github.com/cvan/webvr-holodeck#readme",
   "devDependencies": {
     "http-server": "^0.8.0"
   }
