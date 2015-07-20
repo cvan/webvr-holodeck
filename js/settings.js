@@ -1,3 +1,4 @@
+/* global self */
 (function () {
 
   self.settings = {

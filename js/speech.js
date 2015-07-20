@@ -1,4 +1,4 @@
-/* global panoJump, panoNext, panosList, playAudio, SpeechRecognition, SpeechGrammarList */
+/* global panoAdd, panoBack, panoForward, panoJump, panos, panosLoaded, self, SpeechRecognition, SpeechGrammarList, WorldManager */
 (function () {
 
 var navCommands = {
@@ -36,23 +36,22 @@ var programCommands = {};
 var commandsList = Object.keys(navCommands);
 
 
-panosList.then(function (panos) {
+panosLoaded.then(function () {
 
-  panos.forEach(function (pano, idx) {
-    panos[idx]._idx = idx;
-    (pano.commands || []).forEach(function (cmd) {
-      programCommands[cmd] = pano;
-      commandsList.push(cmd);
-    });
-  });
-
-  var grammar = commandsList.join(' | ');
+  panos.forEach(panoAdd);
 
   createGrammar();
-  setGrammar('#JSGF V1.0; grammar holodeck; public <simple> = ' + grammar + ';');
+  refreshGrammar();
   initSpeech();
 
+}).catch(function (err) {
+  console.error('Could not load panos\n', err);
 });
+
+function refreshGrammar() {
+  var grammar = commandsList.join(' | ');
+  return setGrammar('#JSGF V1.0; grammar holodeck; public <simple> = ' + grammar + ';');
+}
 
 
 var finalTranscript = '';
@@ -172,13 +171,17 @@ function startProgram(program) {
 }
 
 function startHolodeck() {
-  panoNext();
+  panoForward();
 }
 
 self.speech = {
   recognising: recognising,
   start: start,
-  stop: stop
+  stop: stop,
+  panoAdd: panoAdd,
+  programCommands: programCommands,
+  commandsList: commandsList,
+  refreshGrammar: refreshGrammar,
 };
 
 })();
