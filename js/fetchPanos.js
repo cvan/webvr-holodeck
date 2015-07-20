@@ -1,13 +1,19 @@
+/* global self */
 (function () {
 
-var panosList = fetchPanos();
+var panosLoaded = fetchPanos();
+var panos = [];
 
 function fetchPanos() {
   return fetch('panos.json').then(function (response) {
     return response.json();
+  }).then(function (panosJSON) {
+    self.panos = panosJSON;
+    return panos;
   });
 }
 
-self.panosList = panosList;
+self.panosLoaded = panosLoaded;
+self.panos = panos;
 
 })();

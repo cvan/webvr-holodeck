@@ -1,5 +1,6 @@
 [
   {
+    "key": "desert",
     "id": 1,
     "title": "Desert",
     "details": "360° spherical (equirectangular) panorama.",
@@ -12,6 +13,7 @@
     "commands": ["computer start desert", "desert", "first", "one", "computer play first", "computer play one", "computer play first program", "computer play program one"]
   },
   {
+    "key": "puy-de-sancy",
     "id": 2,
     "title": "En route pour le Puy de Sancy",
     "details": "Equirectangular panorama built from 10 pictures, shot handheld.",
@@ -24,6 +26,7 @@
     "commands": ["computer start mount of the cross", "first", "one", "computer play first", "computer play one", "computer play first program", "computer play program one"]
   },
   {
+    "key": "musee-du-louvre",
     "id": 3,
     "title": "Musée du Louvre",
     "details": "Equirectangular panorama built from 8 pictures.",
@@ -36,6 +39,7 @@
     "commands": ["computer start love", "second", "two", "computer play second", "computer play two", "computer play second program", "computer play program two"]
   },
   {
+    "key": "sunrise-on-tintamarre",
     "id": 4,
     "title": "Sunrise on Tintamarre",
     "details": "Equirectangular panorama built from 8 pictures.",

@@ -1,3 +1,4 @@
+/* global panos, panosLoaded, sfx, speech, THREE, TWEEN, WebVRManager, WorldManager */
 // url parameters
 var parameters = (function() {
   var parameters = {};
@@ -10,7 +11,6 @@ var parameters = (function() {
 })();
 
 var camera;
-var clock = new THREE.Clock();
 var controls;
 var counter = -1;
 var effect;
@@ -116,7 +116,7 @@ function panoForward() {
 }
 
 function panoPlay(panoIdx, fromHolodeck) {
-  return panosList.then(function (panos) {
+  return panosLoaded.then(function () {
 
     panoIdx = panoSetCounter(panoIdx, panos);
 
@@ -191,7 +191,34 @@ function panoPlay(panoIdx, fromHolodeck) {
 
     return panoIdx;
 
+  }, function (err) {
+    console.error('Could not play pano %d\n', panoIdx, err);
   });
+}
+
+function panoAdd(pano, idx) {
+  panos[idx]._idx = idx;
+
+  if (pano.commands && pano.commands.length) {
+    pano.commands.forEach(function (cmd) {
+      speech.programCommands[cmd] = pano;
+      speech.commandsList.push(cmd);
+    });
+
+    return true;
+  }
+
+  return false;
+}
+
+function panoAddLater(pano) {
+  var panosLength = panos.push(pano);
+
+  var commandsAdded = panoAdd(pano, panosLength - 1);
+
+  if (commandsAdded) {
+    speech.refreshGrammar();
+  }
 }
 
 
@@ -226,7 +253,7 @@ function init() {
   // camera.add( listener );
 
   // Fetch the JSON list of panos.
-  panosList.then(function (panos) {
+  panosLoaded.then(function (panos) {
 
     // Load material and first panorama.
     loadMaterial().then(function () {
@@ -332,17 +359,13 @@ function setupScene() {
 
 
 function onkey(e) {
-  panosList.then(function (panos) {
-
-    if (e.keyCode === 90) {
-      controls.zeroSensor();
-    } else if (e.keyCode === 37) {
-      panoBack();
-    } else if (e.keyCode === 39) {
-      panoForward();
-    }
-
-  });
+  if (e.keyCode === 90) {
+    controls.zeroSensor();
+  } else if (e.keyCode === 37) {
+    panoBack();
+  } else if (e.keyCode === 39) {
+    panoForward();
+  }
 
   e.stopPropagation();
 }

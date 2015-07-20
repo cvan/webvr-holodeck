@@ -1,3 +1,4 @@
+/* global Howl, self */
 (function () {
 
 var utils = {
@@ -34,7 +35,7 @@ var utils = {
     var ret = Object.create(obj);
     (blacklist || []).forEach(function (key) {
       delete ret[key];
-    })
+    });
   },
   coerceBool: function (str) {
     if (typeof str === 'boolean') {
