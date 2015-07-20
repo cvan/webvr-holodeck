@@ -157,7 +157,7 @@ function process(transcript, score) {
   } else {
     console.log('transcript:', transcript);
     if (transcript in navCommands) {
-      return navCommands(navCommands[transcript])();
+      return navCommands[transcript]();
     }
     if (transcript in programCommands) {
       startProgram(programCommands[transcript]);
