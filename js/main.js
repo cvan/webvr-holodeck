@@ -151,6 +151,58 @@ function panoPlay(panoIdx, fromHolodeck) {
         }
 
 
+
+
+
+console.log('hey', panoCurrent.video);
+
+    var video = VRVideo(scene, {
+        stereo: 'horizontal',
+        sphere: true,
+
+        /*
+        Video sources are provided in two formats: mp4 and webm, as not all browsers can play
+        all formats. They are also provided in two sizes: 4096x2048 and 1024x512. The large
+        file may fail to play on certain devices (e.g. mobile). The script will detect failure
+        and fall back to the smaller file.
+
+        For successful fallback, sources should be sorted first by file format and then by size,
+        with the highest resolution files first.
+        */
+        src: [
+            panoCurrent.video,
+        ]
+    });
+
+console.log('hey0.5');
+    video.play();
+
+console.log('hey0');
+    video.muted = true;
+
+console.log('hey1');
+    video.on('error', function (evt) {
+        console.log('video error', evt);
+    });
+
+console.log('hey2');
+    video.on('play', function (evt) {
+        console.log('video play', evt);
+    });
+
+console.log('hey3');
+    video.on('pause', function (evt) {
+        console.log('video play', evt);
+    });
+
+        console.log('adding mesh', video);
+pano = video;
+scene.add(video);
+
+
+
+
+
         // console.log('adding mesh', video);
 
       //         pano.renderDepth = 2;

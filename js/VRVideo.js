@@ -156,20 +156,6 @@
       loadedMetadata();
     }
 
-    self.play = function play() {
-      playing = true;
-      vid.play();
-      return self;
-    };
-
-    self.pause = function pause() {
-      playing = false;
-      vid.pause();
-      return self;
-    };
-
-    self.canPlayType = video.canPlayType;
-
     Object.defineProperty(self, 'width', {
       get: function () {
         return vid.videoWidth;
@@ -273,6 +259,36 @@
     var element = document.createElement('video');
     return element.canPlayType(type);
   };
+
+
+
+
+    var creator = video;
+    var key;
+
+    var VR = {};
+
+    VR.video = function (options) {
+      var obj = new VRObject(scene, creator, body, options);
+      vrObjects.push(obj);
+      return obj;
+    };
+
+    VRObject.prototype.video = function (options) {
+      var obj = new VRObject(this.object, creator, body, options);
+      vrObjects.push(obj);
+      return obj;
+    };
+
+    for (key in creator) {
+      if (creator.hasOwnProperty(key) && typeof creator[key] === 'function') {
+        VR.video[key] = creator[key];
+        VRObject.prototype.video[key] = creator[key];
+      }
+    }
+
+
+
 
   window.VRVideo = video;
 
