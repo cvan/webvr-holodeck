@@ -259,7 +259,7 @@ function init() {
   // camera.add( listener );
 
   // Fetch the JSON list of panos.
-  panosLoaded.then(function (panos) {
+  panosLoaded.then(function () {
 
     // Load material and first panorama.
     loadMaterial().then(function () {
@@ -426,15 +426,7 @@ document.addEventListener('keypress', function (e) {
     case 's':
       e.preventDefault();
 
-      // Toggle sound by muting/unmuting.
-      if (sfx.sound) {
-        sfx.sound._muted = !!!sfx.sound._muted;
-        if (sfx.sound._muted) {
-          sfx.sound.unmute();
-        } else {
-          sfx.sound.mute();
-        }
-      }
+      sfx.toggleSound();
 
       break;
 
