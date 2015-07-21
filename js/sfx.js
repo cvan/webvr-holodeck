@@ -120,7 +120,8 @@ Sfx.prototype = {
 
     opts = utils.defaultExtend(opts, {
       force: 'force' in opts ? utils.coerceBool(opts.force) : false,
-      loop: 'loop' in opts ? utils.coerceBool(opts.loop) : false
+      loop: 'loop' in opts ? utils.coerceBool(opts.loop) : false,
+      sprite: 'sprite' in opts ? opts.sprite : null,
     });
 
     var prom = new Promise(function (resolve, reject) {
@@ -139,9 +140,15 @@ Sfx.prototype = {
         self.sound.stop();
       }
 
+      if (opts.sprite) {
+        self.sounds[url].sprite(opts.sprite);
+      }
+
       self.sounds[url].loop(opts.loop);
 
-      self.sounds[url].play(null, function () {
+      var sprite = opts.sprite && Object.keys(opts.sprite)[0];
+
+      self.sounds[url].play(sprite, function () {
         self.sound = self.sounds[url];
         resolve(url);
       });
@@ -156,6 +163,27 @@ Sfx.prototype = {
     });
 
     return prom;
+  },
+  mute: function () {
+    if (this.sound) {
+      this.sound.mute();
+    }
+  },
+  unmute: function () {
+    if (this.sound) {
+      this.sound.unmute();
+    }
+  },
+  toggleSound: function () {
+    // Toggle sound by muting/unmuting.
+    if (this.sound) {
+      this.sound._muted = !!!this.sound._muted;
+      if (this.sound._muted) {
+        this.sound.unmute();
+      } else {
+        this.sound.mute();
+      }
+    }
   }
 };
 

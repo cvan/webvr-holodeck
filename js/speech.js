@@ -29,6 +29,21 @@ var navCommands = {
   'computer create': WorldManager.create,
   'computer new': WorldManager.create,
   'computer world': WorldManager.create,
+
+  'mute': sfx.mute,
+  'unmute': sfx.unmute,
+  'mute sound': sfx.mute,
+  'unmute sound': sfx.unmute,
+  'mute audio': sfx.mute,
+  'unmute audio': sfx.unmute,
+  'computer mute': sfx.mute,
+  'computer unmute': sfx.unmute,
+  'computer mute sound': sfx.mute,
+  'computer unmute sound': sfx.unmute,
+  'computer mute music': sfx.mute,
+  'computer unmute music': sfx.unmute,
+  'computer mute audio': sfx.mute,
+  'computer unmute audio': sfx.unmute,
 };
 
 var programCommands = {};

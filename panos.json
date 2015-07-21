@@ -1,16 +1,77 @@
 [
   {
-    "key": "desert",
-    "id": 1,
-    "title": "Desert",
-    "details": "360° spherical (equirectangular) panorama.",
-    "owner": "Paul Bourke",
-    "overlay": null,
-    "image": "images/panos/image5.jpg",
-    "audio": "audio/panos/post-crisis-remembrance.mp3",
-    "source": "http://paulbourke.net/miscellaneous/sphericalpano/",
-    "license": "Public Domain",
-    "commands": ["computer start desert", "desert", "first", "one", "computer play first", "computer play one", "computer play first program", "computer play program one"]
+    "key": "snow-fo-sho",
+    "image": "images/panos/12442086074_149a6b1b7e_o.jpg",
+    "audio": "audio/panos/2574961288_snow.mp3",
+    "commands": ["computer start snow", "computer play snow", "start snow", "play snow", "snow"]
+  },
+  {
+    "key": "indian-bay",
+    "image": "images/panos/1438943236_f7d6ff0ab5_o.jpg",
+    "audio": "audio/panos/Jyotitindra Moitra &amp; Ustad Ali Akbar Khan-''Farewell To Earnest'' From Merchant-Ivory's Film ''The Householder'' [OST The Darjeeling Limited] www.myfreemp3.re .mp3",
+    "commands": ["computer start indian bay", "computer play indian bay", "start indian bay", "play indian bay", "indian bay"]
+  },
+  {
+    "key": "aquarium",
+    "image": "images/panos/9df83df14bfeee4fc47576e1c949b6e7.jpg",
+    "audio": {
+      "src": "audio/panos/1222014949_water.mp3",
+      "sprite": {
+        "start": [3000, 9999]
+      }
+    },
+    "commands": ["computer start aquarium", "computer play aquarium", "start aquarium", "play aquarium", "aquarium"]
+  },
+  {
+    "key": "heaven-cafe",
+    "image": "images/panos/2329406542_ee6614081f_o.jpg",
+    "audio": "audio/panos/the-faces-ooh-la-la[mp3freex.com].mp3",
+    "commands": ["computer start heaven", "computer play heaven", "start heaven", "play heaven", "heaven"]
+  },
+  {
+    "key": "indian-market",
+    "image": "images/panos/4920804346_e74d81e4cc_o.jpg",
+    "audio": "audio/panos/Shankar Jakishan - Title Music From Merchant-Ivory&39;s Film &39;&39;Bombay Talkie&39;&39; [OST.mp3",
+    "commands": ["computer start indian market", "computer play indian market", "start indian market", "play indian market", "indian market"]
+  },
+  {
+    "key": "rainforest-river",
+    "image": "images/panos/19213557699_1c254b93c5_o.jpg",
+    "audio": {
+      "src": "audio/panos/the-proclaimers-over-and-done-with.mp3",
+      "sprite": {
+        "start": [150, 99999]
+      }
+    },
+    "commands": ["computer start island", "computer play island", "start island", "play island", "island"]
+  },
+  {
+    "key": "green",
+    "image": "images/panos/18847844774_4b67340e4b_o.jpg",
+    "audio": {
+      "src": "audio/panos/Oh_Yoko-John_Lennon[www.Mp3MaD.Com].mp3",
+      "sprite": {
+        "start": [0, 99999]
+      }
+    },
+    "commands": ["computer start green", "computer play green", "start green", "play green", "green"]
+  },
+  {
+    "key": "solomon-islands",
+    "image": "images/panos/18958725263_8191624911_o.jpg",
+    "audio": {
+      "src": "audio/panos/05. les vacances de monsieur hulot - quel temps fait-il ` paris.mp3",
+      "sprite": {
+        "start": [150, 99999]
+      }
+    },
+    "commands": ["computer start island", "computer play island", "start island", "play island", "island"]
+  },
+  {
+    "key": "prendeme",
+    "image": "images/panos/Venice.Still001.jpeg",
+    "audio": "audio/panos/Abelardo_Vasquez_&_Cumanana_-_Prendeme_La_Vela.mp3",
+    "commands": ["computer start venice", "computer play venice", "start venice", "play venice", "venice"]
   },
   {
     "key": "puy-de-sancy",
@@ -18,7 +79,6 @@
     "title": "En route pour le Puy de Sancy",
     "details": "Equirectangular panorama built from 10 pictures, shot handheld.",
     "owner": "Alexandre Duret-Lutz",
-    "overlay": "images/puydesancy-overlay.png",
     "image": "images/puydesancy.jpg",
     "audio": "audio/panos/235428__allanz10d__calm-ocean-breeze-simulation.ogg",
     "source": "http://bit.ly/1xk9Vk1",
@@ -31,7 +91,6 @@
     "title": "Musée du Louvre",
     "details": "Equirectangular panorama built from 8 pictures.",
     "owner": "Alexandre Duret-Lutz",
-    "overlay": "images/louvre-overlay.png",
     "image": "images/louvre.jpg",
     "audio": "audio/panos/235428__allanz10d__calm-ocean-breeze-simulation.ogg",
     "source": "https://www.flickr.com/photos/gadl/406108908",
@@ -44,7 +103,6 @@
     "title": "Sunrise on Tintamarre",
     "details": "Equirectangular panorama built from 8 pictures.",
     "owner": "Alexandre Duret-Lutz",
-    "overlay": "images/tintamarre-overlay.png",
     "image": "images/tintamarre.jpg",
     "audio": {
       "src": "audio/panos/52450__inchadney__craw.wav",
