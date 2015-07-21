@@ -43,7 +43,7 @@
         "start": [150, 99999]
       }
     },
-    "commands": ["computer start island", "computer play island", "start island", "play island", "island"]
+    "commands": ["computer start rainforest", "computer play rainforest", "start rainforest", "play rainforest", "rainforest"]
   },
   {
     "key": "green",
@@ -54,7 +54,7 @@
         "start": [0, 99999]
       }
     },
-    "commands": ["computer start green", "computer play green", "start green", "play green", "green"]
+    "commands": ["computer start seven", "seven", "program seven", "computer start program seven", "computer start green", "computer play green", "start green", "play green", "green"]
   },
   {
     "key": "solomon-islands",
