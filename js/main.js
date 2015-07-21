@@ -20,6 +20,7 @@ var overlay;
 var pano;
 var panoIdxByKey = {};
 var panoCurrent;
+var panoTitle;
 var renderer;
 var scene;
 
@@ -128,12 +129,14 @@ function panoPlay(panoIdx, fromHolodeck) {
 
     panoCurrent = panos[panoIdx];
 
-    var imgPano = panoCurrent.image;
-    var imgOverlay = panoCurrent.overlay;
+    panoTitle = panoCurrent.title ? ' (' + panoCurrent.title + ')' : '';
+
+    console.log('Playing pano #%d%s', panoIdx, panoTitle);
 
     if (fromHolodeck) {
       playAudio('audio/holodeck_end_program.mp3');
     }
+
 
     // fade out current panorama.
     new TWEEN.Tween(pano.material)
@@ -141,7 +144,25 @@ function panoPlay(panoIdx, fromHolodeck) {
       .onComplete(function () {
         // Load in new panorama texture.
         THREE.ImageUtils.crossOrigin = 'anonymous';  // Enable loading of CORS'd images.
-        pano.material.map = THREE.ImageUtils.loadTexture(imgPano, THREE.UVMapping, fadeIn);
+        if (panoCurrent.image) {
+          pano.material.map = THREE.ImageUtils.loadTexture(panoCurrent.image, THREE.UVMapping, fadeIn);
+        } else {
+          pano.material.map = null;
+        }
+
+
+        // console.log('adding mesh', video);
+
+      //         pano.renderDepth = 2;
+      // pano.rotation.set( 0, -90 * Math.PI / 180, 0 );
+      // scene.add(pano);
+
+
+// pano = video;
+// scene.add(video);
+
+
+        // pano.material.map = new THREE.VideoTexture(panoCurrent.video, THREE.UVMapping);
       })
       .start();
 
@@ -150,8 +171,8 @@ function panoPlay(panoIdx, fromHolodeck) {
       .to({opacity: 0}, 300)
       .onComplete(function () {
         // load in new title.
-        if (imgOverlay) {
-          overlay.children[0].material.map = THREE.ImageUtils.loadTexture(imgOverlay, THREE.UVMapping);
+        if (panoCurrent.overlay) {
+          overlay.children[0].material.map = THREE.ImageUtils.loadTexture(panoCurrent.overlay, THREE.UVMapping);
         } else {
           overlay.children[0].material.map = null;
         }
@@ -184,7 +205,7 @@ function panoPlay(panoIdx, fromHolodeck) {
         playAudio(panoAudio.src, panoAudio);
       }
 
-      if (imgOverlay) {
+      if (panoCurrent.overlay) {
         new TWEEN.Tween(overlay.children[0].material)
           .to({opacity: 1}, 300)
           .start();
@@ -263,6 +284,7 @@ function init() {
 
     // Load material and first panorama.
     loadMaterial().then(function () {
+      console.log('loadMaterial called');
       //return panoForward();
     });
 
